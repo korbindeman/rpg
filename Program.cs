@@ -15,5 +15,9 @@ class Program
     static void ProcessCommand(string? command)
     {
         Console.WriteLine("command {0}", command);
+        if (command == "quit")
+        {
+            Environment.Exit(0);
+        }
     }
 }
