@@ -25,7 +25,7 @@ class Program
         }
         if (command == "e")
         {
-            Location? newLocation = p.Move("east`");
+            Location? newLocation = p.Move("east");
             Console.WriteLine("Moved to {0}", newLocation.Name);
         }
         if (command == "s")
