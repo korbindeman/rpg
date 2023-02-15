@@ -55,7 +55,7 @@ public static class World
         Items.Add(new Item(ITEM_ID_SPIDER_FANG, "Spider fang", "Spider fangs"));
         Items.Add(new Item(ITEM_ID_SPIDER_SILK, "Spider silk", "Spider silks"));
         Items.Add(new Item(ITEM_ID_ADVENTURER_PASS, "Adventurer pass", "Adventurer passes"));
-        Items.Add(new Item(ITEM_ID_WINNERS_MEDAL, "Winner's medal", "winner's medals"));
+        Items.Add(new Item(ITEM_ID_WINNERS_MEDAL, "Winner's medal", "Winner's medals"));
     }
 
     public static void PopulateWeapons()
