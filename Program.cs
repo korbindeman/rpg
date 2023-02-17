@@ -6,6 +6,10 @@ class Program
     static void Main(string[] args)
     {
         adventure = new SuperAdventure();
+
+        // TEMPORARY
+        Player p = adventure.ThePlayer; // temporary
+
         while (true)
         {
             Console.Write("> ");
@@ -18,7 +22,6 @@ class Program
     static void ProcessCommand(string? command)
     {
         Player p = adventure.ThePlayer;
-        p.Inventory.AddItem(World.ItemByID(1));
 
         switch (command)
         {
@@ -40,6 +43,12 @@ class Program
                 break;
             case "i":
                 p.ViewInventory();
+                break;
+            case "quests":
+                p.ViewQuests();
+                break;
+            case "quest":
+                p.GetQuest();
                 break;
             case "map":
                 p.CurrentLocation.ShowMap();

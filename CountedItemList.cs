@@ -27,5 +27,17 @@ public class CountedItemList
             AddItem(countedItem.TheItem);
         }
     }
+
+    public CountedItem? GetItemById(int id)
+    {
+        foreach (var countedItem in TheCountedItemList)
+        {
+            if (countedItem.TheItem.ID == id)
+            {
+                return countedItem;
+            }
+        }
+        return null;
+    }
 }
 

@@ -23,6 +23,7 @@ public class Location
     {
         // TODO: needs refactoring
         Console.WriteLine($"You are now at {Name}.");
+        Console.WriteLine($"{Description}");
 
         Location empty = new Location(0, "Nothing", "", null);
 
