@@ -1,11 +1,11 @@
 namespace rpg;
 class Program
 {
-    static Player p = new Player("Korbin");
+    static SuperAdventure adventure;
 
     static void Main(string[] args)
     {
-
+        adventure = new SuperAdventure();
         while (true)
         {
             Console.Write("> ");
@@ -17,30 +17,40 @@ class Program
 
     static void ProcessCommand(string? command)
     {
-        Console.WriteLine("command {0}", command);
-        if (command == "n")
+        Player p = adventure.ThePlayer;
+        p.Inventory.AddItem(World.ItemByID(1));
+
+        switch (command)
         {
-            Location? newLocation = p.Move("north");
-            Console.WriteLine("Moved to {0}", newLocation.Name);
-        }
-        if (command == "e")
-        {
-            Location? newLocation = p.Move("east");
-            Console.WriteLine("Moved to {0}", newLocation.Name);
-        }
-        if (command == "s")
-        {
-            Location? newLocation = p.Move("south");
-            Console.WriteLine("Moved to {0}", newLocation.Name);
-        }
-        if (command == "w")
-        {
-            Location? newLocation = p.Move("west");
-            Console.WriteLine("Moved to {0}", newLocation.Name);
-        }
-        if (command == "quit")
-        {
-            Environment.Exit(0);
+            case "n":
+                p.Move("north");
+                Console.WriteLine("Moved to {0}", p.CurrentLocation.Name);
+                break;
+            case "e":
+                p.Move("east");
+                Console.WriteLine("Moved to {0}", p.CurrentLocation.Name);
+                break;
+            case "s":
+                p.Move("south");
+                Console.WriteLine("Moved to {0}", p.CurrentLocation.Name);
+                break;
+            case "w":
+                p.Move("west");
+                Console.WriteLine("Moved to {0}", p.CurrentLocation.Name);
+                break;
+            case "i":
+                p.ViewInventory();
+                break;
+            case "heal":
+                p.CurrentHitPoints = Math.Min(p.CurrentHitPoints + 5, p.MaximumHitPoints);
+                Console.WriteLine(p.CurrentHitPoints);
+                break;
+            case "describe":
+                Console.WriteLine(p.CurrentLocation.Description);
+                break;
+            case "quit":
+                Environment.Exit(0);
+                break;
         }
     }
 }

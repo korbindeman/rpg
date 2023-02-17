@@ -9,7 +9,7 @@ class Player
     public Weapon CurrentWeapon;
     public Location CurrentLocation;
     // public QuestList QuestLog;
-    // public Inventory CountedItemList;
+    public CountedItemList Inventory;
 
     public Player(string name)
     {
@@ -21,9 +21,18 @@ class Player
         Level = 1;
         CurrentWeapon = World.WeaponByID(1);
         CurrentLocation = World.LocationByID(1);
+        Inventory = new CountedItemList();
     }
 
-    public Location? Move(string direction)
+    public void ViewInventory()
+    {
+        Console.WriteLine($"{Name}'s inventory:");
+        foreach (var countedItem in Inventory.TheCountedItemList) {
+            Console.WriteLine($"{countedItem.Quantity}x - {countedItem.TheItem.Name}");
+        }
+    }
+
+    public void Move(string direction)
     {
         Location? targetLocation = null;
         switch (direction)
@@ -41,10 +50,6 @@ class Player
                 targetLocation = CurrentLocation.LocationToWest;
                 break;
         }
-        if (targetLocation is null) return null;
-
-        CurrentLocation = targetLocation;
-
-        return targetLocation;
+        CurrentLocation = targetLocation ?? CurrentLocation;
     }
 }
