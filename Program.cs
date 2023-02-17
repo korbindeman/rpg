@@ -45,7 +45,7 @@ class Program
                 p.CurrentLocation.ShowMap();
                 break;
             case "heal":
-                p.CurrentHitPoints = Math.Min(p.CurrentHitPoints + 5, p.MaximumHitPoints);
+                p.Heal(2);
                 Console.WriteLine(p.CurrentHitPoints);
                 break;
             case "describe":

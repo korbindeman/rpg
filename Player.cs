@@ -27,9 +27,16 @@ class Player
     public void ViewInventory()
     {
         Console.WriteLine($"{Name}'s inventory:");
-        foreach (var countedItem in Inventory.TheCountedItemList) {
+        foreach (var countedItem in Inventory.TheCountedItemList)
+        {
             Console.WriteLine($"{countedItem.Quantity}x - {countedItem.TheItem.Name}");
         }
+    }
+
+    public void Heal(int hp)
+    {
+        CurrentHitPoints = Math.Min(CurrentHitPoints + hp, MaximumHitPoints);
+        Console.WriteLine($"You healed yourself and gained {hp} points of health.");
     }
 
     public void Move(string direction)
