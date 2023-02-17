@@ -41,6 +41,9 @@ class Program
             case "i":
                 p.ViewInventory();
                 break;
+            case "map":
+                p.CurrentLocation.ShowMap();
+                break;
             case "heal":
                 p.CurrentHitPoints = Math.Min(p.CurrentHitPoints + 5, p.MaximumHitPoints);
                 Console.WriteLine(p.CurrentHitPoints);
