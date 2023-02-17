@@ -27,6 +27,7 @@ public class Player
 
     public void GetQuest()
     {
+        // TODO: should probably be part of the Quest class
         Quest? quest = CurrentLocation.QuestAvailableHere;
         if (quest is not null)
         {
@@ -47,6 +48,7 @@ public class Player
 
     public void ViewQuests()
     {
+        // TODO: should probably be part of the Quest class
         Console.WriteLine($"{Name}'s quests:");
         foreach (var playerQuest in QuestLog.QuestLog)
         {
