@@ -27,10 +27,18 @@ public class Player
 
     public void GetQuest()
     {
-        // TODO: should probably be part of the Quest class
+        // TODO: should maybe be part of the Quest class
         Quest? quest = CurrentLocation.QuestAvailableHere;
         if (quest is not null)
         {
+            foreach (var playerQuest in QuestLog.QuestLog)
+            {
+                if (playerQuest.TheQuest.ID == quest.ID)
+                {
+                    Console.WriteLine("You already have this quest!");
+                    return;
+                }
+            }
             QuestLog.AddQuest(quest);
             Console.WriteLine($"Quest added: {quest.Name}");
         }
@@ -38,7 +46,6 @@ public class Player
 
     public void ViewInventory()
     {
-        // TODO: should probably be part of the Inventory class
         Console.WriteLine($"{Name}'s inventory:");
         foreach (var countedItem in Inventory.TheCountedItemList)
         {
@@ -83,5 +90,7 @@ public class Player
                 break;
         }
         CurrentLocation = targetLocation ?? CurrentLocation;
+
+        Console.WriteLine("Moved to {0}", CurrentLocation.Name);
     }
 }
