@@ -11,4 +11,12 @@ public class QuestList
     {
         QuestLog.Add(new PlayerQuest(quest));
     }
+
+    public void CheckQuestCompletion(Player player)
+    {
+        foreach (var playerQuest in player.QuestLog.QuestLog)
+        {
+            playerQuest.CheckCompletion(player);
+        }
+    }
 }
