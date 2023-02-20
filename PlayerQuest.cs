@@ -12,6 +12,8 @@ public class PlayerQuest
     public void CheckCompletion(Player player)
     {
         // TODO: refactor
+        if (IsCompleted) return;
+
         foreach (var questCompletionItem in TheQuest.QuestCompletionItems.TheCountedItemList)
         {
             CountedItem? playerInvItem = player.Inventory.GetItemById(questCompletionItem.TheItem.ID);
@@ -20,6 +22,7 @@ public class PlayerQuest
                 if (playerInvItem.Quantity == questCompletionItem.Quantity)
                 {
                     IsCompleted = true;
+                    Console.WriteLine($"You completed the quest {TheQuest.Name}!");
                 }
                 else
                 {
