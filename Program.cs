@@ -8,57 +8,56 @@ class Program
         adventure = new SuperAdventure();
 
         // TEMPORARY
-        Player p = adventure.ThePlayer; // temporary
+        Player p = adventure.ThePlayer;
+        adventure.ThePlayer.Inventory.AddItem(World.ItemByID(1));
+        // END TEMPORARY
 
         while (true)
         {
             Console.Write("> ");
             string? command = Console.ReadLine();
             ProcessCommand(command);
-            Console.Write("\n");
+            p.QuestLog.CheckQuestCompletion(p);
         }
     }
 
     static void ProcessCommand(string? command)
     {
-        Player p = adventure.ThePlayer;
-
         switch (command)
         {
             case "n":
-                p.Move("north");
-                Console.WriteLine("Moved to {0}", p.CurrentLocation.Name);
+                adventure.ThePlayer.Move("north");
                 break;
             case "e":
-                p.Move("east");
-                Console.WriteLine("Moved to {0}", p.CurrentLocation.Name);
+                adventure.ThePlayer.Move("east");
                 break;
             case "s":
-                p.Move("south");
-                Console.WriteLine("Moved to {0}", p.CurrentLocation.Name);
+                adventure.ThePlayer.Move("south");
                 break;
             case "w":
-                p.Move("west");
-                Console.WriteLine("Moved to {0}", p.CurrentLocation.Name);
+                adventure.ThePlayer.Move("west");
                 break;
             case "i":
-                p.ViewInventory();
+                adventure.ThePlayer.ViewInventory();
                 break;
             case "quests":
-                p.ViewQuests();
+                adventure.ThePlayer.ViewQuests();
                 break;
             case "quest":
-                p.GetQuest();
+                adventure.ThePlayer.GetQuest();
                 break;
             case "map":
-                p.CurrentLocation.ShowMap();
+                adventure.ThePlayer.CurrentLocation.ShowMap();
                 break;
             case "heal":
-                p.Heal(2);
-                Console.WriteLine(p.CurrentHitPoints);
+                adventure.ThePlayer.Heal(2);
+                Console.WriteLine(adventure.ThePlayer.CurrentHitPoints);
                 break;
             case "describe":
-                Console.WriteLine(p.CurrentLocation.Description);
+                Console.WriteLine(adventure.ThePlayer.CurrentLocation.Description);
+                break;
+            case "fight":
+                adventure.Fight();
                 break;
             case "quit":
                 Environment.Exit(0);
