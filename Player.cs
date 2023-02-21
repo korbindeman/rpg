@@ -10,11 +10,13 @@ public class Player
     public Location CurrentLocation;
     public QuestList QuestLog;
     public CountedItemList Inventory;
+    public double AttackMultiplier;
+    public int PointsToLevelUp = 20;
 
     public Player(string name)
     {
         Name = name;
-        CurrentHitPoints = 10;
+        CurrentHitPoints = 20;
         MaximumHitPoints = 20;
         Gold = 10;
         ExperiencePoints = 0;
@@ -22,7 +24,49 @@ public class Player
         CurrentWeapon = World.WeaponByID(1);
         CurrentLocation = World.LocationByID(1);
         QuestLog = new QuestList();
-        Inventory = new CountedItemList();
+        Inventory = new CountedItemList(true);
+        AttackMultiplier = 1.0;
+    }
+
+    public void ShowStats()
+    {
+        Console.WriteLine($"{Name}'s stats:");
+        Console.WriteLine($"Level: {Level}");
+        Console.WriteLine($"XP: {ExperiencePoints}/{(Level + 1) * PointsToLevelUp} for next level");
+        Console.WriteLine($"Weapon: {CurrentWeapon.Name} ({CurrentWeapon.MinimumDamage}-{CurrentWeapon.MaximumDamage} DMG)");
+        Console.WriteLine($"Attack multiplier: {AttackMultiplier}");
+        Console.WriteLine($"Gold: {Gold}");
+    }
+
+    public void AddGold(int gold)
+    {
+        Gold += gold;
+        Console.WriteLine($"You have received {gold} gold.");
+    }
+
+    public void AddExperience(int xp)
+    {
+        ExperiencePoints += xp;
+        Console.WriteLine($"\nYou have gained {xp} XP.");
+        int oldLevel = Level;
+        Level = ExperiencePoints / PointsToLevelUp + 1;
+        int diff = Level - oldLevel;
+        if (diff > 0)
+        {
+            MaximumHitPoints += 5 * diff;
+            AttackMultiplier += 0.125 * diff;
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine($"You have leveled up to level {Level}! Your max HP is now {MaximumHitPoints}, and your attacks now do more damage.");
+            Console.ResetColor();
+
+        }
+    }
+
+    public void Die()
+    {
+        CurrentLocation = World.LocationByID(1);
+        CurrentHitPoints = MaximumHitPoints;
+        Console.WriteLine("\nYou passed out and woke up back at home with full health.");
     }
 
     public void GetQuest()
@@ -40,7 +84,12 @@ public class Player
                 }
             }
             QuestLog.AddQuest(quest);
-            Console.WriteLine($"Quest added: {quest.Name}");
+
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.Write($"Quest added: ");
+            Console.ResetColor();
+            Console.Write($"{quest.Name}\n");
+            Console.WriteLine(quest.Description);
         }
     }
 
@@ -49,6 +98,7 @@ public class Player
         Console.WriteLine($"{Name}'s inventory:");
         foreach (var countedItem in Inventory.TheCountedItemList)
         {
+            if (countedItem.Quantity == 0) continue;
             Console.WriteLine($"{countedItem.Quantity}x - {countedItem.TheItem.Name}");
         }
     }
@@ -64,11 +114,34 @@ public class Player
         }
     }
 
-
-    public void Heal(int hp)
+    public void CheckHealth()
     {
-        CurrentHitPoints = Math.Min(CurrentHitPoints + hp, MaximumHitPoints);
-        Console.WriteLine($"You healed yourself and gained {hp} points of health.");
+        if (CurrentHitPoints < 10)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"\nYou have {CurrentHitPoints} HP remaining. Maybe you should heal.");
+            Console.ResetColor();
+        }
+    }
+
+    public void Heal()
+    {
+        if (CurrentHitPoints == MaximumHitPoints)
+        {
+            Console.WriteLine("You are already fully healed.");
+
+            return;
+        }
+        int oldHP = CurrentHitPoints;
+
+        int heal = new Random().Next(MaximumHitPoints / 4, MaximumHitPoints / 2);
+        CurrentHitPoints = Math.Min(CurrentHitPoints + heal, MaximumHitPoints);
+
+        int deltaHP = CurrentHitPoints - oldHP;
+        Console.Write($"You healed yourself and gained {deltaHP} points of health. Now you have ");
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.Write($"{CurrentHitPoints} HP\n");
+        Console.ResetColor();
     }
 
     public void Move(string direction)
@@ -89,8 +162,35 @@ public class Player
                 targetLocation = CurrentLocation.LocationToWest;
                 break;
         }
+        if (targetLocation is null)
+        {
+            Console.WriteLine("There is nothing there.");
+            return;
+        }
+
+        if (targetLocation.ID == 3 && Inventory.GetItemById(7) is null)
+        {
+            Console.WriteLine("You can't go here without an Adventurer Pass! Come back when you have one.");
+            return;
+        }
+
         CurrentLocation = targetLocation ?? CurrentLocation;
 
-        Console.WriteLine("Moved to {0}", CurrentLocation.Name);
+        string questMark = CurrentLocation.QuestAvailableHere is not null && !QuestLog.QuestLog.Exists(playerQuest => playerQuest.TheQuest.ID == CurrentLocation.QuestAvailableHere.ID) ? " (quest!)" : "";
+
+        Console.Write($"Moved to {CurrentLocation.Name}");
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
+        Console.Write(questMark);
+        Console.ResetColor();
+        Console.WriteLine();
+    }
+
+    public void CheckWin()
+    {
+        if (Inventory.GetItemById(8) is null) return;
+
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine($"\nCONGRATULATIONS {Name}, YOU HAVE WON THE GAME!");
+        Console.ResetColor();
     }
 }

@@ -23,19 +23,29 @@ public class Location
     {
         // TODO: needs refactoring
         Console.WriteLine($"You are now at {Name}.");
-        Console.WriteLine($"{Description}");
+        Console.WriteLine($"{Description}\n");
 
         Location empty = new Location(0, "Nothing", "", null);
 
-        string[] directions = { "North", "East", "South", "West" };
+        string[] directions = { "N", "E", "S", "W" };
         Location?[] directionLocations = { LocationToNorth, LocationToEast, LocationToSouth, LocationToWest };
         var directionsAndLocations = directions.Zip(directionLocations, (d, l) => new { Direction = d, Location = l });
+
+
+        ConsoleColor[] colors = { ConsoleColor.Cyan, ConsoleColor.Yellow, ConsoleColor.Blue, ConsoleColor.Magenta };
+        int index = 0;
 
         foreach (var dl in directionsAndLocations)
         {
             Location? loc = dl.Location;
             loc ??= empty;
-            Console.WriteLine($"{dl.Direction}: {loc.Name}");
+            Console.Write($"{dl.Direction}: ");
+
+            if (loc.Name != "Nothing") Console.ForegroundColor = colors[index];
+            Console.Write($"{loc.Name}\n");
+            Console.ResetColor();
+
+            index++;
         }
     }
 }

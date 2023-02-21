@@ -17,18 +17,28 @@ public class PlayerQuest
         foreach (var questCompletionItem in TheQuest.QuestCompletionItems.TheCountedItemList)
         {
             CountedItem? playerInvItem = player.Inventory.GetItemById(questCompletionItem.TheItem.ID);
-            if (playerInvItem is not null)
+            if (playerInvItem is null) return;
+
+            if (!(playerInvItem.Quantity >= questCompletionItem.Quantity)) return;
+            IsCompleted = true;
+
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine($"\nYou completed the quest {TheQuest.Name}!");
+            Console.ResetColor();
+
+
+            Item? rewardItem = TheQuest.RewardItem;
+            if (rewardItem is not null) player.Inventory.AddItem(rewardItem);
+
+            Weapon? rewardWeapon = TheQuest.RewardWeapon;
+            if (rewardWeapon is not null)
             {
-                if (playerInvItem.Quantity == questCompletionItem.Quantity)
-                {
-                    IsCompleted = true;
-                    Console.WriteLine($"You completed the quest {TheQuest.Name}!");
-                }
-                else
-                {
-                    IsCompleted = false;
-                }
-            }
+                player.CurrentWeapon = rewardWeapon;
+                Console.WriteLine($"You have recieved and equipped a {rewardWeapon.Name} as your new weapon.");
+            };
+
+            player.AddGold(TheQuest.RewardGold);
+            player.AddExperience(TheQuest.RewardExperiencePoints);
         }
     }
 }

@@ -1,4 +1,4 @@
-public class Monster
+public class Monster : ICloneable
 {
     public int ID;
     public string Name;
@@ -22,5 +22,8 @@ public class Monster
         Loot = new CountedItemList();
     }
 
-
+    public object Clone()
+    {
+        return this.MemberwiseClone();
+    }
 }

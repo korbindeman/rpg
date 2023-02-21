@@ -195,7 +195,7 @@ public static class World
             }
         }
 
-        return null;
+        return new Location(0, "", "", null);
     }
 
     public static Weapon WeaponByID(int id)
@@ -208,7 +208,7 @@ public static class World
             }
         }
 
-        return null;
+        return new Weapon(0, "", "", 0, 0);
     }
 
     public static Item ItemByID(int id)
@@ -221,7 +221,7 @@ public static class World
             }
         }
 
-        return null;
+        return new Item(0, "", "");
     }
 
     public static Monster MonsterByID(int id)
@@ -234,7 +234,7 @@ public static class World
             }
         }
 
-        return null;
+        return new Monster(0, "", "", 0, 0, 0, 0);
     }
 
     public static Quest QuestByID(int id)
@@ -247,6 +247,6 @@ public static class World
             }
         }
 
-        return null;
+        return new Quest(0, "", "", 0, 0, null, null);
     }
 }

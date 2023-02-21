@@ -1,28 +1,26 @@
 namespace rpg;
 class Program
 {
-    static SuperAdventure adventure;
+    static SuperAdventure adventure = new SuperAdventure();
 
     static void Main(string[] args)
     {
-        adventure = new SuperAdventure();
-
-        // TEMPORARY
         Player p = adventure.ThePlayer;
-        adventure.ThePlayer.Inventory.AddItem(World.ItemByID(1));
-        // END TEMPORARY
 
         while (true)
         {
-            Console.Write("> ");
+            Console.Write("\n> ");
             string? command = Console.ReadLine();
+            if (command is null) command = "";
             ProcessCommand(command);
             p.QuestLog.CheckQuestCompletion(p);
+            p.CheckWin();
         }
     }
 
-    static void ProcessCommand(string? command)
+    static void ProcessCommand(string command)
     {
+        command = command.ToLower();
         switch (command)
         {
             case "n":
@@ -40,28 +38,54 @@ class Program
             case "i":
                 adventure.ThePlayer.ViewInventory();
                 break;
-            case "quests":
-                adventure.ThePlayer.ViewQuests();
+            case "x":
+                adventure.ThePlayer.CurrentLocation.ShowMap();
                 break;
             case "quest":
                 adventure.ThePlayer.GetQuest();
+                break;
+            case "quests":
+                adventure.ThePlayer.ViewQuests();
                 break;
             case "map":
                 adventure.ThePlayer.CurrentLocation.ShowMap();
                 break;
             case "heal":
-                adventure.ThePlayer.Heal(2);
-                Console.WriteLine(adventure.ThePlayer.CurrentHitPoints);
-                break;
-            case "describe":
-                Console.WriteLine(adventure.ThePlayer.CurrentLocation.Description);
+                adventure.ThePlayer.Heal();
                 break;
             case "fight":
                 adventure.Fight();
                 break;
+            case "stats":
+                adventure.ThePlayer.ShowStats();
+                break;
             case "quit":
                 Environment.Exit(0);
                 break;
+            case "help":
+                Help();
+                break;
+            default:
+
+                Console.WriteLine("That command is not recognized. Type HELP for a list of commands.");
+                break;
+        }
+
+        static void Help()
+        {
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.Write("---- Help Menu: all commands are case-insensitive ----");
+            Console.ResetColor();
+            Console.WriteLine(@"
+N, E, S, W                                 Move around
+I                                       Open inventory
+X, MAP                                        Open map
+QUEST                                        Get quest
+QUESTS                                 View your quest
+FIGHT                                   Fight an enemy
+HEAL                                     Heal yourself
+STATS                                  View your stats
+QUIT                                     Quit the game");
         }
     }
 }
