@@ -38,9 +38,6 @@ class Program
             case "i":
                 adventure.ThePlayer.ViewInventory();
                 break;
-            case "x":
-                adventure.ThePlayer.CurrentLocation.ShowMap();
-                break;
             case "quest":
                 adventure.ThePlayer.GetQuest();
                 break;
@@ -48,7 +45,7 @@ class Program
                 adventure.ThePlayer.ViewQuests();
                 break;
             case "map":
-                adventure.ThePlayer.CurrentLocation.ShowMap();
+                adventure.ThePlayer.CurrentLocation.ShowMap(adventure.ThePlayer);
                 break;
             case "heal":
                 adventure.ThePlayer.Heal();
@@ -74,18 +71,18 @@ class Program
         static void Help()
         {
             Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.Write("---- Help Menu: all commands are case-insensitive ----");
+            Console.Write("---- Help Menu: (all commands are case-insensitive) ----");
             Console.ResetColor();
             Console.WriteLine(@"
-N, E, S, W                                 Move around
-I                                       Open inventory
-X, MAP                                        Open map
-QUEST                                        Get quest
-QUESTS                                 View your quest
-FIGHT                                   Fight an enemy
-HEAL                                     Heal yourself
-STATS                                  View your stats
-QUIT                                     Quit the game");
+N, E, S, W                                   Move around
+I                                    Open your inventory
+MAP                       Open a map of the surroundings
+QUEST                   Get the current location's quest
+QUESTS                           View your active quests
+FIGHT                                     Fight an enemy
+HEAL                                       Heal yourself
+STATS                                    View your stats
+QUIT                                       Quit the game");
         }
     }
 }

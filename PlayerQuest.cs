@@ -34,7 +34,12 @@ public class PlayerQuest
             if (rewardWeapon is not null)
             {
                 player.CurrentWeapon = rewardWeapon;
-                Console.WriteLine($"You have recieved and equipped a {rewardWeapon.Name} as your new weapon.");
+                Console.Write($"You have recieved and equipped a ");
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.Write(rewardWeapon.Name);
+                Console.ResetColor();
+                Console.WriteLine(" as your new weapon.");
+
             };
 
             player.AddGold(TheQuest.RewardGold);

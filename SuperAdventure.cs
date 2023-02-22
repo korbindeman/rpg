@@ -33,15 +33,19 @@ class SuperAdventure
 
         Weapon weapon = ThePlayer.CurrentWeapon;
 
+        int turns = 0;
+        int damageTaken = 0;
         while (ThePlayer.CurrentHitPoints > 0 && CurrentMonster.CurrentHitPoints > 0)
         {
             int playerDamage = Convert.ToInt32(Math.Round(rnd.Next(weapon.MinimumDamage, weapon.MaximumDamage) * ThePlayer.AttackMultiplier));
             CurrentMonster.CurrentHitPoints -= playerDamage;
-            Console.WriteLine($"You hit the {CurrentMonster.Name} for {playerDamage} health.");
+            // Console.WriteLine($"You hit the {CurrentMonster.Name} for {playerDamage} HP.");
 
             int monsterDamage = rnd.Next(weapon.MinimumDamage, weapon.MaximumDamage);
             ThePlayer.CurrentHitPoints -= monsterDamage;
-            Console.WriteLine($"The {CurrentMonster.Name} hit you for {monsterDamage} health.");
+            // Console.WriteLine($"The {CurrentMonster.Name} hit you for {monsterDamage} HP.");
+            turns++;
+            damageTaken += monsterDamage;
         }
         bool playerWon = ThePlayer.CurrentHitPoints > 0;
 
@@ -49,8 +53,20 @@ class SuperAdventure
         if (playerWon)
         {
             Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine($"You have defeated the {CurrentMonster.Name}.\n");
+            Console.WriteLine($"You have defeated the {CurrentMonster.Name}.");
             Console.ResetColor();
+
+            string swing = turns == 1 ? "only one swing" : $"{turns} swings";
+
+            Console.Write($"It took you ");
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.Write(swing);
+            Console.ResetColor();
+            Console.Write(", and you suffered ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write($"{damageTaken} HP");
+            Console.ResetColor();
+            Console.Write(" of damage.\n\n");
 
             CountedItemList loot = CurrentMonster.Loot;
             int index = rnd.Next(loot.TheCountedItemList.Count);
@@ -64,28 +80,9 @@ class SuperAdventure
         else
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"You have been defeated by the {CurrentMonster.Name}.\n");
+            Console.WriteLine($"You have been defeated by the {CurrentMonster.Name}.");
             Console.ResetColor();
 
-
-            // TODO: maybe this should be in the Die method instead
-            CountedItemList inv = ThePlayer.Inventory;
-            if (inv.TheCountedItemList.Any())
-            {
-                int removedItemId = World.ITEM_ID_ADVENTURER_PASS;
-                CountedItem? removedItem = null;
-                while (removedItemId == World.ITEM_ID_ADVENTURER_PASS)
-                {
-                    int index = rnd.Next(inv.TheCountedItemList.Count);
-                    removedItem = inv.TheCountedItemList[index];
-                    removedItemId = removedItem.TheItem.ID;
-                }
-                if (removedItem is not null && removedItem.Quantity > 0)
-                {
-                    ThePlayer.Inventory.AddCountedItem(new CountedItem(removedItem.TheItem, -1));
-                    Console.WriteLine($"You lost one {removedItem.TheItem.Name}");
-                }
-            }
             ThePlayer.Die();
         }
     }

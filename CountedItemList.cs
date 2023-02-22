@@ -25,7 +25,13 @@ public class CountedItemList
     public void AddCountedItem(CountedItem countedItem)
     {
         string name = countedItem.Quantity == 1 ? countedItem.TheItem.Name : countedItem.TheItem.NamePlural;
-        if (Echo && countedItem.Quantity > 0) Console.WriteLine($"{countedItem.Quantity} {name} added to your inventory.");
+        if (Echo && countedItem.Quantity > 0)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            Console.Write($"{countedItem.Quantity} {name}");
+            Console.ResetColor();
+            Console.WriteLine($" added to your inventory.");
+        }
 
         foreach (var inventoryCountedItem in TheCountedItemList)
         {

@@ -19,7 +19,7 @@ public class Location
         ItemRequiredToEnter = itemRequiredToEnter;
     }
 
-    public void ShowMap()
+    public void ShowMap(Player player)
     {
         // TODO: needs refactoring
         Console.WriteLine($"You are now at {Name}.");
@@ -41,9 +41,14 @@ public class Location
             loc ??= empty;
             Console.Write($"{dl.Direction}: ");
 
-            if (loc.Name != "Nothing") Console.ForegroundColor = colors[index];
-            Console.Write($"{loc.Name}\n");
+            string questMark = loc.QuestAvailableHere is not null && !player.QuestLog.QuestLog.Exists(playerQuest => playerQuest.TheQuest.ID == loc.QuestAvailableHere.ID) ? " (!)" : "";
+
+            Console.ForegroundColor = loc.Name == "Nothing" ? ConsoleColor.DarkGray : colors[index];
+            Console.Write(loc.Name);
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.Write(questMark);
             Console.ResetColor();
+            Console.WriteLine();
 
             index++;
         }
