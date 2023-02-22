@@ -12,6 +12,7 @@ public class Player
     public CountedItemList Inventory;
     public double AttackMultiplier;
     public int PointsToLevelUp = 20;
+    private bool HasWon = false;
 
     public Player(string name)
     {
@@ -31,11 +32,28 @@ public class Player
     public void ShowStats()
     {
         Console.WriteLine($"{Name}'s stats:");
-        Console.WriteLine($"Level: {Level}");
-        Console.WriteLine($"XP: {ExperiencePoints}/{(Level + 1) * PointsToLevelUp} for next level");
-        Console.WriteLine($"Weapon: {CurrentWeapon.Name} ({CurrentWeapon.MinimumDamage}-{CurrentWeapon.MaximumDamage} DMG)");
-        Console.WriteLine($"Attack multiplier: {AttackMultiplier}");
-        Console.WriteLine($"Gold: {Gold}");
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write($"Level:                ");
+        Console.ResetColor();
+        Console.WriteLine($"{Level}");
+        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.Write($"XP:                   ");
+        Console.ResetColor();
+        Console.WriteLine($"{ExperiencePoints}/{(Level) * PointsToLevelUp} XP");
+        Console.ForegroundColor = ConsoleColor.DarkRed;
+        Console.Write($"Weapon:               ");
+        Console.ResetColor();
+        Console.WriteLine($"{CurrentWeapon.Name} ({CurrentWeapon.MinimumDamage}-{CurrentWeapon.MaximumDamage} DMG)");
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.Write($"Attack multiplier:    ");
+        Console.ResetColor();
+        string attackMultiplier = String.Format("{0:0.00}x", AttackMultiplier);
+        Console.WriteLine(attackMultiplier);
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.Write($"Gold:                 ");
+        Console.ResetColor();
+        Console.WriteLine($"{Gold} G");
+        Console.ResetColor();
     }
 
     public void AddGold(int gold)
@@ -242,20 +260,28 @@ public class Player
         CurrentLocation = targetLocation ?? CurrentLocation;
 
         string questMark = CurrentLocation.QuestAvailableHere is not null && !QuestLog.QuestLog.Exists(playerQuest => playerQuest.TheQuest.ID == CurrentLocation.QuestAvailableHere.ID) ? " (quest!)" : "";
+        string enemyMark = CurrentLocation.MonsterLivingHere is not null ? " (monsters!)" : "";
+
 
         Console.Write($"Moved to {CurrentLocation.Name}");
         Console.ForegroundColor = ConsoleColor.DarkYellow;
         Console.Write(questMark);
+        Console.ResetColor();
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.Write(enemyMark);
         Console.ResetColor();
         Console.WriteLine(".");
     }
 
     public void CheckWin()
     {
+        if (HasWon) return;
         if (Inventory.GetItemById(8) is null) return;
 
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine($"\nCONGRATULATIONS {Name}, YOU HAVE WON THE GAME!");
         Console.ResetColor();
+
+        HasWon = true;
     }
 }

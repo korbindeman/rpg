@@ -42,11 +42,15 @@ public class Location
             Console.Write($"{dl.Direction}: ");
 
             string questMark = loc.QuestAvailableHere is not null && !player.QuestLog.QuestLog.Exists(playerQuest => playerQuest.TheQuest.ID == loc.QuestAvailableHere.ID) ? " (!)" : "";
+            string enemyMark = loc.MonsterLivingHere is not null ? " (!)" : "";
 
             Console.ForegroundColor = loc.Name == "Nothing" ? ConsoleColor.DarkGray : colors[index];
             Console.Write(loc.Name);
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.Write(questMark);
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(enemyMark);
             Console.ResetColor();
             Console.WriteLine();
 
