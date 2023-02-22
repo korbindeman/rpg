@@ -5,6 +5,18 @@ class Program
 
     static void Main(string[] args)
     {
+        string intro = @"
+WELCOME TO 'Monster Hunter'!
+
+As the hero of your town, you must clear the town and its surroundings
+of all the deadly monsters like snakes, rats and spiders and complete
+challenging quests and collect powerful weapons to emerge victorious.
+
+The fate of the town is in your hands!
+
+";
+        Typewrite(intro);
+
         Player p = adventure.ThePlayer;
 
         while (true)
@@ -16,6 +28,19 @@ class Program
             p.QuestLog.CheckQuestCompletion(p);
             p.CheckWin();
         }
+    }
+
+    static void Typewrite(string message)
+    {
+        for (int i = 0; i < message.Length; i++)
+        {
+            char c = message[i];
+            Console.Write(c);
+            System.Threading.Thread.Sleep(40);
+            if (c == ',') System.Threading.Thread.Sleep(50);
+            if (c == '.' || c == '!') System.Threading.Thread.Sleep(100);
+        }
+
     }
 
     static void ProcessCommand(string command)

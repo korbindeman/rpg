@@ -15,7 +15,15 @@ class SuperAdventure
         CurrentMonster = null;
 
         Console.WriteLine("You wake up and get up from your bed.");
-        Console.WriteLine("Type N to go to the Town Square. Or type HELP to see all available commands.");
+        Console.Write("Type ");
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
+        Console.Write("N");
+        Console.ResetColor();
+        Console.Write(" to go to the Town Square. Or type ");
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
+        Console.Write("HELP");
+        Console.ResetColor();
+        Console.Write(" to go to the Town Square. Or type HELP to see all available commands.\n");
     }
 
     public void Fight()
