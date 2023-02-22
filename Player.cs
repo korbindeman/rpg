@@ -86,7 +86,7 @@ public class Player
         if (diff > 0)
         {
             MaximumHitPoints += 5 * diff;
-            AttackMultiplier += 0.125 * diff;
+            AttackMultiplier += 0.1 * diff;
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine($"\nYou have leveled up to level {Level}! Your max HP is now {MaximumHitPoints}, and your attacks now do more damage.");
             Console.ResetColor();
