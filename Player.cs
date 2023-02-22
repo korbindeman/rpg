@@ -32,19 +32,23 @@ public class Player
     public void ShowStats()
     {
         Console.WriteLine($"{Name}'s stats:");
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.Write($"Health:               ");
+        Console.ResetColor();
+        Console.WriteLine($"{CurrentHitPoints}/{MaximumHitPoints} HP");
         Console.ForegroundColor = ConsoleColor.Cyan;
         Console.Write($"Level:                ");
         Console.ResetColor();
         Console.WriteLine($"{Level}");
         Console.ForegroundColor = ConsoleColor.Blue;
-        Console.Write($"XP:                   ");
+        Console.Write($"Experience:           ");
         Console.ResetColor();
         Console.WriteLine($"{ExperiencePoints}/{(Level) * PointsToLevelUp} XP");
         Console.ForegroundColor = ConsoleColor.DarkRed;
         Console.Write($"Weapon:               ");
         Console.ResetColor();
         Console.WriteLine($"{CurrentWeapon.Name} ({CurrentWeapon.MinimumDamage}-{CurrentWeapon.MaximumDamage} DMG)");
-        Console.ForegroundColor = ConsoleColor.Red;
+        Console.ForegroundColor = ConsoleColor.DarkMagenta;
         Console.Write($"Attack multiplier:    ");
         Console.ResetColor();
         string attackMultiplier = String.Format("{0:0.00}x", AttackMultiplier);
