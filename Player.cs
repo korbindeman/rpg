@@ -19,7 +19,7 @@ public class Player
         Name = name;
         CurrentHitPoints = 20;
         MaximumHitPoints = 20;
-        Gold = 10;
+        Gold = 0;
         ExperiencePoints = 0;
         Level = 1;
         CurrentWeapon = World.WeaponByID(1);
@@ -219,7 +219,26 @@ public class Player
         CurrentHitPoints = MaximumHitPoints;
 
         int deltaHP = CurrentHitPoints - oldHP;
-        Console.Write($"You gained {deltaHP} HP. Now you have ");
+
+        int healGold = 20;
+
+        if (Gold < healGold)
+        {
+            Console.Write("You don't have enough ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("Gold");
+            Console.ResetColor();
+            Console.WriteLine(" to heal yourself.");
+            return;
+        }
+
+        Gold -= healGold;
+
+        Console.Write($"You payed ");
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.Write($"{healGold} gold");
+        Console.ResetColor();
+        Console.Write($" and gained {deltaHP} HP. Now you have ");
         Console.ForegroundColor = ConsoleColor.Red;
         Console.Write($"{CurrentHitPoints} HP");
         Console.ResetColor();

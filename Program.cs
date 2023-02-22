@@ -103,7 +103,7 @@ MAP                       Open a map of the surroundings
 QUEST                   Get the current location's quest
 QUESTS                           View your active quests
 FIGHT                                     Fight an enemy
-HEAL                                       Heal yourself
+HEAL                            Heal yourself using gold
 STATS                                    View your stats
 QUIT                                       Quit the game");
         }
