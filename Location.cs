@@ -23,7 +23,10 @@ public class Location
     {
         // TODO: needs refactoring
         Console.WriteLine($"You are now at {Name}.");
+
+        Console.ForegroundColor = ConsoleColor.DarkGray;
         Console.WriteLine($"{Description}\n");
+        Console.ResetColor();
 
         Location empty = new Location(0, "Nothing", "", null);
 
