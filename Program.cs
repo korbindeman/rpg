@@ -40,7 +40,6 @@ The fate of the town is in your hands!
             if (c == ',') System.Threading.Thread.Sleep(50);
             if (c == '.' || c == '!') System.Threading.Thread.Sleep(100);
         }
-
     }
 
     static void ProcessCommand(string command)
@@ -88,7 +87,6 @@ The fate of the town is in your hands!
                 Help();
                 break;
             default:
-
                 Console.WriteLine("That command is not recognized. Type HELP for a list of commands.");
                 break;
         }
